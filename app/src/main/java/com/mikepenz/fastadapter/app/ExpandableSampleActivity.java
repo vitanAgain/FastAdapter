@@ -50,6 +50,7 @@ public class ExpandableSampleActivity extends AppCompatActivity {
         fastItemAdapter.withSelectable(true);
         expandableExtension = new ExpandableExtension<>();
         //expandableExtension.withOnlyOneExpandedItem(true);
+        //MYNOTE: 2019/05/23 在最外层的adapter上添加拓展
         fastItemAdapter.addExtension(expandableExtension);
 
         //get our recyclerView and do basic setup
@@ -63,39 +64,48 @@ public class ExpandableSampleActivity extends AppCompatActivity {
         AtomicInteger identifier = new AtomicInteger(1);
         for (int i = 1; i <= 100; i++) {
             if (i % 3 != 0) {
+                //MYNOTE: 2019/05/23 添加item（不可拓展）----SimpleSubItem
                 items.add(new SimpleSubItem().withName("Test " + i).withIdentifier(identifier.getAndIncrement()));
                 continue;
             }
-
+            //MYNOTE: 2019/05/23 创建父item----SimpleSubExpandableItem
             SimpleSubExpandableItem parent = new SimpleSubExpandableItem();
             parent.withName("Test " + i).withIdentifier(identifier.getAndIncrement());
 
+            //MYNOTE: 2019/05/23 创建一级子item列表
             List<IItem> subItems = new LinkedList<>();
             for (int ii = 1; ii <= 5; ii++) {
+                //MYNOTE: 2019/05/23 创建一级子item----SimpleSubExpandableItem
                 SimpleSubExpandableItem subItem = new SimpleSubExpandableItem();
                 subItem.withName("-- SubTest " + ii).withIdentifier(identifier.getAndIncrement());
 
                 if (ii % 2 == 0) {
                     continue;
                 }
-
+                //MYNOTE: 2019/05/23 创建二级子item列表
                 List<IItem> subSubItems = new LinkedList<>();
                 for (int iii = 1; iii <= 3; iii++) {
+                    //MYNOTE: 2019/05/23 创建二级子item----SimpleSubExpandableItem
                     SimpleSubExpandableItem subSubItem = new SimpleSubExpandableItem();
                     subSubItem.withName("---- SubSubTest " + iii).withIdentifier(identifier.getAndIncrement());
 
+                    //MYNOTE: 2019/05/23 创建三级子item列表
                     List<IItem> subSubSubItems = new LinkedList<>();
                     for (int iiii = 1; iiii <= 4; iiii++) {
+                        //MYNOTE: 2019/05/23 创建三级子item（不拓展）----SimpleSubExpandableItem
                         SimpleSubExpandableItem subSubSubItem = new SimpleSubExpandableItem();
                         subSubSubItem.withName("---- SubSubSubTest " + iiii).withIdentifier(identifier.getAndIncrement());
                         subSubSubItems.add(subSubSubItem);
                     }
+                    //MYNOTE: 2019/05/23 将三级子列表设置给二级子item
                     subSubItem.withSubItems(subSubSubItems);
                     subSubItems.add(subSubItem);
                 }
+                //MYNOTE: 2019/05/23 将二级子列表设置给一级子item
                 subItem.withSubItems(subSubItems);
                 subItems.add(subItem);
             }
+            //MYNOTE: 2019/05/23 将一级子列表设置给一级item
             parent.withSubItems(subItems);
             items.add(parent);
         }
@@ -112,6 +122,7 @@ public class ExpandableSampleActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //add the values which need to be saved from the adapter to the bundle
+        //MYNOTE: 2019/05/23 导出onState，保存adapter状态（借鉴用于MD中）
         outState = fastItemAdapter.saveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }

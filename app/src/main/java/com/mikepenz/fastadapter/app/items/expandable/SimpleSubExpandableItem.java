@@ -31,11 +31,13 @@ import butterknife.ButterKnife;
 public class SimpleSubExpandableItem<Parent extends IItem & IExpandable, SubItem extends IItem & ISubItem> extends AbstractExpandableItem<SimpleSubExpandableItem<Parent, SubItem>, SimpleSubExpandableItem.ViewHolder, SubItem> {
 
     public String header;
+    //MYNOTE: 2019/05/23 StringHolder，方便在tv上设置文字的holder
     public StringHolder name;
     public StringHolder description;
 
     private OnClickListener<SimpleSubExpandableItem> mOnClickListener;
 
+    //MYNOTE: 2019/05/23 简化版的建造者模式
     public SimpleSubExpandableItem<Parent, SubItem> withHeader(String header) {
         this.header = header;
         return this;
@@ -71,15 +73,18 @@ public class SimpleSubExpandableItem<Parent extends IItem & IExpandable, SubItem
     }
 
     //we define a clickListener in here so we can directly animate
+    //MYNOTE: 2019/05/23 设置折叠标志动画的步骤
     final private OnClickListener<SimpleSubExpandableItem<Parent, SubItem>> onClickListener = new OnClickListener<SimpleSubExpandableItem<Parent, SubItem>>() {
         @Override
         public boolean onClick(View v, IAdapter adapter, @NonNull SimpleSubExpandableItem item, int position) {
             if (item.getSubItems() != null) {
                 if (!item.isExpanded()) {
+                    //MYNOTE: 2019/05/23 使用ViewCompat这个万能兼容View设置动画
                     ViewCompat.animate(v.findViewById(R.id.material_drawer_icon)).rotation(180).start();
                 } else {
                     ViewCompat.animate(v.findViewById(R.id.material_drawer_icon)).rotation(0).start();
                 }
+                //MYNOTE: 2019/05/23 借鉴写法，使用条件表达式
                 return mOnClickListener == null || mOnClickListener.onClick(v, adapter, item, position);
             }
             return mOnClickListener != null && mOnClickListener.onClick(v, adapter, item, position);
@@ -99,6 +104,7 @@ public class SimpleSubExpandableItem<Parent extends IItem & IExpandable, SubItem
     @Override
     public boolean isSelectable() {
         //this might not be true for your application
+        // MYWHY: 2019/05/23 getSubItems() == null???
         return getSubItems() == null;
     }
 
@@ -117,6 +123,7 @@ public class SimpleSubExpandableItem<Parent extends IItem & IExpandable, SubItem
      *
      * @return the layout for this item
      */
+    //MYNOTE: 2019/05/23 注意这里的布局文件，也采用了icons
     @Override
     public int getLayoutRes() {
         return R.layout.expandable_item;
