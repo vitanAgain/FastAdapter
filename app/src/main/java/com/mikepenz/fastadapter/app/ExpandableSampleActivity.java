@@ -56,6 +56,7 @@ public class ExpandableSampleActivity extends AppCompatActivity {
         //get our recyclerView and do basic setup
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        // MYWHY: 2019/05/27 了解这里的动画效果
         rv.setItemAnimator(new SlideDownAlphaAnimator());
         rv.setAdapter(fastItemAdapter);
 

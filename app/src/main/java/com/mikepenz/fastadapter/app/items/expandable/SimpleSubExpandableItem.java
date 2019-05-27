@@ -143,6 +143,7 @@ public class SimpleSubExpandableItem<Parent extends IItem & IExpandable, SubItem
 
         //set the background for the item
         viewHolder.view.clearAnimation();
+        //MYNOTE: 2019/05/27 ViewHolder中的传入ctx，用于设置选中的样式
         ViewCompat.setBackground(viewHolder.view, FastAdapterUIUtils.getSelectableBackground(ctx, Color.RED, true));
         //set the text for the name
         StringHolder.applyTo(name, viewHolder.name);
