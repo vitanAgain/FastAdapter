@@ -118,9 +118,11 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
 
     configurations.all {
-        resolutionStrategy.force "com.mikepenz:materialize:1.1.2"
-        resolutionStrategy.force "com.mikepenz:iconics-core:3.0.4"
         resolutionStrategy.force "com.mikepenz:aboutlibraries:6.0.9"
+
+        resolutionStrategy.force "com.mikepenz:iconics-core:3.0.4"
+        
+        resolutionStrategy.force "com.mikepenz:materialize:1.1.2"
         resolutionStrategy.force "com.android.support:support-v4:${versions.supportLib}"
         resolutionStrategy.force "com.android.support:appcompat-v7:${versions.supportLib}"
         resolutionStrategy.force "com.android.support:recyclerview-v7:${versions.supportLib}"

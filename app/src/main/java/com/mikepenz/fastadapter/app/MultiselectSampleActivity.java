@@ -103,7 +103,7 @@ public class MultiselectSampleActivity extends AppCompatActivity {
             }
         });
 
-        //
+        //MYNOTE: 2019/06/28 撤销辅助类
         mUndoHelper = new UndoHelper<>(mFastAdapter, new UndoHelper.UndoListener<SimpleItem>() {
             @Override
             public void commitRemove(Set<Integer> positions, ArrayList<FastAdapter.RelativeInfo<SimpleItem>> removed) {
@@ -117,6 +117,7 @@ public class MultiselectSampleActivity extends AppCompatActivity {
         //get our recyclerView and do basic setup
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        //MYNOTE: 2019/06/28 为rv添加动画
         rv.setItemAnimator(new SlideDownAlphaAnimator());
         rv.setAdapter(mFastAdapter);
 
@@ -138,6 +139,7 @@ public class MultiselectSampleActivity extends AppCompatActivity {
         itemAdapter.add(items);
 
         //restore selections (this has to be done after the items were added
+        //MYNOTE: 2019/06/28 withSavedInstanceState(savedInstanceState)这个操作必须在添加item之后进行
         mFastAdapter.withSavedInstanceState(savedInstanceState);
 
         //set the back arrow in the toolbar
@@ -148,6 +150,7 @@ public class MultiselectSampleActivity extends AppCompatActivity {
         Toast.makeText(this, "LongClick to enable Multi-Selection", Toast.LENGTH_LONG).show();
     }
 
+    //MYNOTE: 2019/06/28 将FastAdapter中的saveInstance交给页面，进行复原
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //add the values which need to be saved from the adapter to the bundle
